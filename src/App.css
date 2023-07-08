@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  color:white
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.app{
+  background: radial-gradient(
+  circle at top right,
+  #16222A, #3A6073) 200% 200%  ;
+  min-height:100vh ; 
+  display:flex;
+  flex-direction: column;
+  /* overflow-y:hidden; */
+}
