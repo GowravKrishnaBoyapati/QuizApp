@@ -13,6 +13,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ReactModal from 'react-modal';
 import AddQuiz from './AddQuiz';
 import EditQuiz from './EditQuiz';
+import { Fade } from 'react-reveal';
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -98,6 +99,7 @@ function FacultyHome() {
 
   return (
     <div className="faculty-home">
+      <Fade left>
       <div className="faculty-quizes">
         <div className='faculty-quiz-heading'>
           <h1>All Quizes </h1>
@@ -126,6 +128,7 @@ function FacultyHome() {
             <EditQuiz qid={activeQuiz?.id} setIsOpen={(e)=>{setEditQuizModal(e)}} />
           </ReactModal>
         </div>
+        
         <div className="faculty-quiz-set "  >
           {
             quizData.map((i,index) => (
@@ -144,7 +147,8 @@ function FacultyHome() {
           }
         </div>
       </div>
-
+      </Fade>
+      <Fade right>
       {activeQuiz!=undefined && <div className="faculty-home-admin">
         <div className="quiz-title">
           <div className="main-title" style={{ margin: 'auto', marginBottom: '10px' }}><h3 style={{ filter: 'none' }}>Title : {activeQuiz?.data?.title} [ max mark: {activeQuiz?.data?.max_mark} ]</h3></div>
@@ -162,6 +166,7 @@ function FacultyHome() {
           <ResultGraph data={quizAttempts} quiz={activeQuiz?.data} />
         </div>
       </div>}
+      </Fade>
     </div>
   )
 }
