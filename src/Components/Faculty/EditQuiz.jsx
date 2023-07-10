@@ -28,14 +28,14 @@ function EditQuiz({ qid }) {
     const [totalQuestions, setTotalQuestions] = useState([])
     const [changed, setChanged] = useState(false)
     const [currentQ, setCurrentQ] = useState({
-        'question': '',
-        'option1': '',
-        'option2': '',
-        'option3': '',
-        'option4': '',
-        'answer': '',
-        'score': 0,
-        'id':''
+                'id':'',
+                'question':'',
+                'option1':'',
+                'option2':'',
+                'option3':'',
+                'option4':'',
+                'answer':'',
+                'point':0,
     })
     let unsubscribe = ''
     useEffect(() => {
@@ -45,6 +45,20 @@ function EditQuiz({ qid }) {
             }
         )
     }, [])
+    const CreateEmptyQuestion = () =>{
+        db.doNewQuizQuestions(qid,{
+            question:'',
+            options:['','','',''],
+            point:'',
+            answer:''
+        }).then(() => {
+            setValue(currentQ);
+            
+           }).catch((error) => {
+             console.log(error);
+             alert("Error removing Quiz: ", error);
+           });
+    };
     const updateQuestion = () =>{
         db.doUpdateQuizQuestions(qid,currentQ.id,{
             question:currentQ?.question,
@@ -58,7 +72,7 @@ function EditQuiz({ qid }) {
              console.log(error);
              alert("Error removing Quiz: ", error);
            });
-    }
+    };
     function search(nameKey, myArray){
         for (let i=0; i < myArray.length; i++) {
             if (myArray[i].id === nameKey) {
@@ -111,6 +125,11 @@ function EditQuiz({ qid }) {
         else{
             setIndexer(id)
         }
+     }
+
+     const DeleteQuestion = () =>{
+        if(confirm('Do you really want to delete this question?')==true)
+        db.doDeleteQuestion(qid,currentQ.id).then(()=>{alert('Question deleted succesfully!');setIndexer(totalQuestions[0].id)})
      }
 
     return (
@@ -193,8 +212,8 @@ function EditQuiz({ qid }) {
                     </div>
                 </div>
                 <div style={{ display: 'flex', margin: 'auto', justifyContent: 'space-evenly', width: '100%', padding: '15px' }}>
-                    <Butto className='' color='error' variant='contained' onClick={()=>{confirm('Do you really want to delete this question?')==true?db.doDeleteQuestion(qid,currentQ.id):''}}  >Delete Question <DeleteForeverIcon />  </Butto>
-                    <Butto className='add-q' onClick={() => setQcount(qCount + 1)} disabled={qCount > 9 ? true : false}>Create Question ▶  </Butto>
+                    <Butto className='' color='error' variant='contained' onClick={()=>{DeleteQuestion()}}  >Delete Question <DeleteForeverIcon />  </Butto>
+                    <Butto className='add-q' onClick={() => CreateEmptyQuestion()} disabled={qCount > 9 ? true : false}>Create Question ▶  </Butto>
                     <Butto className='' disabled={!changed} color='success' variant='contained' onClick={()=>updateQuestion()}  >Save Question <SaveAsIcon /> </Butto>
                 </div>
             </div>

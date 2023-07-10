@@ -68,7 +68,10 @@ export const doQuizStatus_Enable_Disable = (qid,status) => db.collection('Quizes
 //Editing Quizes using unique quiz identifier and the unique question identifier
 export const doUpdateQuizQuestions = (uqid,qid,data) => db.collection('Quizes').doc(uqid).collection('Questions').doc(qid).set(data)
 
+//Editing Quizes using unique quiz identifier and the unique question identifier
+export const doNewQuizQuestions = (uqid,data) => db.collection('Quizes').doc(uqid).collection('Questions').doc().set(data)
+
 //Delete a Question from a quiz using the unqiue identfiers of both quiz and question
-export const doDeleteQuestion = (qid,question_id) => db.collection('Quizes').doc(qid).collection('Questions').doc(question_id).delete().then(()=>alert('Question deleted succesfully!'))
+export const doDeleteQuestion = (qid,question_id) => db.collection('Quizes').doc(qid).collection('Questions').doc(question_id).delete()
 
 // other APIs could come below
