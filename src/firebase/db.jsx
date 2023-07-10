@@ -58,6 +58,7 @@ export const doDelteQuiz = (qid) => db.collection('Quizes').doc(qid).delete().th
   alert("Error removing Quiz: ", error);
 });
 
+
 //Accessing the Users Attempts Data from a specific quiz using the unique quiz identifier
 export const doGetQuizAttemps = (qid) => db.collection('Quizes').doc(qid).collection('attempts').get()
 
@@ -65,6 +66,9 @@ export const doGetQuizAttemps = (qid) => db.collection('Quizes').doc(qid).collec
 export const doQuizStatus_Enable_Disable = (qid,status) => db.collection('Quizes').doc(qid).update({disabled: !status})
 
 //Editing Quizes using unique quiz identifier and the unique question identifier
-export const doUpdateQuizQuestions = (uqid,qid,data) => db.collection('Quizes').doc(uqid).collection('Question').doc(qid).set(data)
+export const doUpdateQuizQuestions = (uqid,qid,data) => db.collection('Quizes').doc(uqid).collection('Questions').doc(qid).set(data)
+
+//Delete a Question from a quiz using the unqiue identfiers of both quiz and question
+export const doDeleteQuestion = (qid,question_id) => db.collection('Quizes').doc(qid).collection('Questions').doc(question_id).delete().then(()=>alert('Question deleted succesfully!'))
 
 // other APIs could come below

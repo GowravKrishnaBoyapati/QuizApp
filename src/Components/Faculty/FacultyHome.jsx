@@ -104,6 +104,7 @@ function FacultyHome() {
         </div>
         <div className="add-quiz-faculty">
           <h3 style={{ textDecoration: 'none' }} onClick={()=>{setAddQuizModal(true)}} >Add Quiz <AddCardIcon style={{ fontSize: 'inherit' }} /></h3>
+          
           <ReactModal
           isOpen={addQuizModal}
           contentLabel="Example Modal"
@@ -114,6 +115,7 @@ function FacultyHome() {
             <button onClick={()=>{setAddQuizModal(false)}} > X </button>
             <AddQuiz setIsOpen={(e)=>{setAddQuizModal(e)}} />
           </ReactModal>
+          
           <ReactModal
           isOpen={EditQuizModal}
           contentLabel="Example Modal"
@@ -121,7 +123,7 @@ function FacultyHome() {
           overlayClassName="add-quiz-modal-overlay"
           >
             <button onClick={()=>{setEditQuizModal(false)}} > X </button>
-            <EditQuiz setIsOpen={(e)=>{setEditQuizModal(e)}} />
+            <EditQuiz qid={activeQuiz?.id} setIsOpen={(e)=>{setEditQuizModal(e)}} />
           </ReactModal>
         </div>
         <div className="faculty-quiz-set "  >
