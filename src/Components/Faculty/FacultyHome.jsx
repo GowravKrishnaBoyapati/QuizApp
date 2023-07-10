@@ -12,6 +12,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ReactModal from 'react-modal';
 import AddQuiz from './AddQuiz';
+import EditQuiz from './EditQuiz';
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -116,24 +117,24 @@ function FacultyHome() {
           <ReactModal
           isOpen={EditQuizModal}
           contentLabel="Example Modal"
-          onRequestClose={()=>setEditQuizModal(false)}
           className='add-quiz-modal'
           overlayClassName="add-quiz-modal-overlay"
           >
             <button onClick={()=>{setEditQuizModal(false)}} > X </button>
-            <AddQuiz setIsOpen={(e)=>{setEditQuizModal(e)}} />
+            <EditQuiz setIsOpen={(e)=>{setEditQuizModal(e)}} />
           </ReactModal>
         </div>
         <div className="faculty-quiz-set "  >
           {
             quizData.map((i,index) => (
-              <div className={'quizes-section faculty-quizes-section ' + ((activeQuiz == i || index==0) ? 'faculty-active-quiz' : '')} onClick={() => { console.log('Qid: ', i.id); setActiveQuiz(i) }}>
+              <div className={'quizes-section faculty-quizes-section ' + ((activeQuiz == i) ? 'faculty-active-quiz' : '')} onClick={() => { console.log('Qid: ', i.id); setActiveQuiz(i) }}>
+                {(activeQuiz == undefined) ? setActiveQuiz(i):''}
                 <div className="quiz-title">
                   <div className="main-title"><h3>{i.data['title']}</h3></div>
                   <div className="max-mark">max-mark: {i.data['max_mark']}</div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <button className="take-quiz" onClick={()=>{setAddQuizModal(true)}}>Edit <AppRegistrationIcon /></button>
+                  <button className="take-quiz" onClick={()=>{setEditQuizModal(true)}}>Edit <AppRegistrationIcon /></button>
                   <button className="take-quiz" onClick={(e)=>{confirm('Do you want to delete the Quiz?')?db.doDelteQuiz(i.id):''}} >Delete <DeleteForeverIcon/></button>
                 </div>
               </div>

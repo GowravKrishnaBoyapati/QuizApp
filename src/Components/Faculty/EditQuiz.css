@@ -1,0 +1,28 @@
+.edit-quiz-main{
+    display:flex;
+    justify-content: space-evenly;
+    margin-top:5px;
+}
+
+.questions-edit-quiz{
+    margin:auto;
+    max-height:60vh !important;
+    display:flex;
+    flex-direction: column;
+    justify-content:space-between
+}
+.add-q{
+    background:rgb(233, 209, 29) !important;
+    color:black !important;
+}
+.add-q:active{
+    background:rgb(74, 79, 2) !important;
+}
+.add-q:disabled{
+    color:black !important;
+    cursor:not-allowed;
+}
+
+.faculty-quiz-add{
+    max-height:60vh !important;
+}
