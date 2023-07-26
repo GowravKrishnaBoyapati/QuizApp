@@ -7,26 +7,20 @@ import { PasswordForgetLink } from "./PasswordForget";
 import { auth, db } from "../firebase";
 import * as routes from "../constants/routes";
 import './SignIn.css'
-const SignInPage = ({ history }) => {
-  return (
+const SignInPage = ({ history }) =>  (
     <Zoom bottom>
     <div className="div-flex signinBox" style={{margin:'auto',padding:'100px'}}>
       <div>
         <h1 className="centered">Sign On</h1>
         {/* <img src={logo} className="App-logo" alt="My logo" /> */}
 
-        <SignInForm history={history} />
+        <SignInForm history={history} /> 
         <SignUpLink />
         <PasswordForgetLink />
       </div>
     </div>
     </Zoom>
   );
-};
-
-const byPropKey = (propertyName, value) => () => ({
-  [propertyName]: value
-});
 
 const INITIAL_STATE = {
   email: "",
@@ -34,6 +28,11 @@ const INITIAL_STATE = {
   error: null,
   showingAlert: false
 };
+
+const byPropKey = (propertyName, value) => () => ({
+  [propertyName]: value
+});
+
 
 class SignInForm extends Component {
   state = { ...INITIAL_STATE };
@@ -47,52 +46,27 @@ class SignInForm extends Component {
       .doSignInWithEmailAndPassword(email, password)
       .then((user) => {
         this.setState({ ...INITIAL_STATE });
-        console.log(user.user)
+        //console.log(user.user)
         db.doGetAnUnser(user.user.uid).then(res => {
-          console.log(res.data())
+          //console.log(res.data())
           if (res.data().role==undefined)
             history.push(routes.HOME);
           else{
             history.push(routes.FACULTY);
           }
-        })
-
-        
+        }).catch(error => {
+          //console.log(error);
+          this.setState(byPropKey("error", error));
+          this.timer(); //show alert message for some seconds
+        });
       })
       .catch(error => {
+        //console.log(error);
         this.setState(byPropKey("error", error));
         this.timer(); //defined below
       });
 
     event.preventDefault();
-  };
-
-  facebookLogin = () => {
-    const { history } = this.props;
-    auth
-      .doFacebookSignIn()
-      .then(authUser => {
-        console.log("authUser", authUser);
-
-        db.doCreateUser(
-          //store some info from facebook into the firebase db
-          authUser.user.uid,
-          authUser.user.displayName,
-          authUser.user.email
-        )
-          .then(() => {
-            // this.setState({
-            //   ...INITIAL_STATE
-            // });
-            history.push(routes.HOME); //redirects to Home Page
-          })
-          .catch(error => {
-            this.setState(byPropKey("error", error));
-          });
-      })
-      .catch(error => {
-        this.setState(byPropKey("error", error));
-      });
   };
 
   timer = () => {
@@ -115,11 +89,10 @@ class SignInForm extends Component {
     return (
       <div>
         {showingAlert && (
-          <Alert color="danger" onLoad={this.timer}>
-            {error.message}
+          <Alert color="danger"  onLoad={this.timer}>
+            {"Warning: " + error.message}
           </Alert>
         )}
-
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
             <Label for="exampleEmail">Email</Label>
@@ -152,7 +125,7 @@ class SignInForm extends Component {
 
           <div className="text-center">
             <Button disabled={isInvalid} type="submit" style={{borderRadius:'15px'}}>
-              Sign On
+              Sign In
             </Button>
           </div>
         </Form>

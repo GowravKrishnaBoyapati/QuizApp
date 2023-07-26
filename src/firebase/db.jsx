@@ -18,8 +18,6 @@ export const doCreateUser = (id, username, email) =>
 
   });
 
-//returns all users from firebase realtime db
-export const onceGetUsers = () => db.collection('users').get();
 
 //Get an user using UID
 export const doGetAnUnser = uid => db.collection('users').doc(uid).get();

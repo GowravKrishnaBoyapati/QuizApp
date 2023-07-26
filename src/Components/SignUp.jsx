@@ -104,7 +104,7 @@ class SignUpForm extends Component {
       <div style={{marginTop:'auto',marginBottom:'auto'}}>
         {showingAlert && (
           <Alert color="danger" onLoad={this.timer}>
-            {error.message}
+            {"Warning: " + error.message}
           </Alert>
         )}
         <Form onSubmit={this.onSubmit}>
@@ -164,8 +164,8 @@ class SignUpForm extends Component {
           </FormGroup>
 
           <div className="text-center">
-            <Button disabled={isInvalid} style={{borderRadius:'15px'}} type="submit">
-              Sign Up
+            <Button data-testid="sign_up" disabled={isInvalid} style={{borderRadius:'15px'}} type="submit">
+              Register
             </Button>
           </div>
         </Form>
